@@ -1,46 +1,46 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import time
+#import openpyxl
 
-def initialize_driver():
-	driver = webdriver.Chrome()
-	return driver
+## Cargar el archivo Excel (asegúrate de colocar la ruta correcta si está en tu escritorio)
+#ruta_archivo = 'C:\\Users\\USER\\Desktop\\archivo1.xlsx'  # Reemplaza 'TuUsuario' por tu nombre de usuario
+#wb = openpyxl.load_workbook(ruta_archivo)
 
-def login(driver):
-	input_username=driver.find_element(By.ID, "user-name")
-	#print(input_username)
-	#/html/body/div[2]/div[2]/div/div[1]/text()[1]
-	user_name_value = driver.find_element(By.XPATH,"//*[@id='login_credentials']")
-	split_container_username = user_name_value.text.split("\n")
-	user_name = split_container_username[1]
-	#print(user_name)
-	#By.XPATH,"//*[@id="login_credentials"]/text()[1]
-	#/html//div[@id='login_credentials']
-	input_username.send_keys(user_name)
-	#time.sleep(1)
-	input_password = driver.find_element(By.ID, "password")
-	container_password = driver.find_element(By.CLASS_NAME, 'login_password')
-	split_container_password = container_password.text.split("\n")
-	password = split_container_password[1]
-	input_password.send_keys(password)
-	loggin_button = driver.find_element(By.ID, "login-button")
-	loggin_button.click()
-	time.sleep(2)
-	return driver
-	#/html/body/div[2]/div[2]/div/div[2]
-	#/html/body/div[2]/div[2]/div/div[2]/text()
+## Seleccionar la hoja activa (si hay más de una hoja, podrías especificar el nombre)
+#hoja = wb['Hoja2']
 
-def main():
-	driver = initialize_driver()
-	driver.get("https://www.saucedemo.com/v1/")
-	driver = login(driver)
-	if driver.current_url == "https://www.saucedemo.com/v1/inventory.html":
-		print("Login succesful")
-	else:
-		print("Login Failed")
+## Escribir "PRACTICA" en la celda A1
+#hoja['B1'] = 1
+#hoja['B2'] = 3
 
-if __name__ == '__main__':
-	main()
-	#http1s://www.saucedemo.com/v1/
-	#https://www.youtube.com/watch?v=bMsQ0SfrM8U&ab_channel=CodexBothttps://www.youtube.com/watch?v=bMsQ0SfrM8U&ab_channel=CodexBot
+#wb.save(ruta_archivo)
+#wb = openpyxl.load_workbook(ruta_archivo, data_only=True)
+#hoja = wb['Hoja2']
+### Leer el valor de la celda A2
+#valor_a2 = hoja['B3'].value
+
+### Imprimir el valor de A2 en pantalla
+#print(f"La suma es: {valor_a2}")
+import xlwings as xw
+
+# Cargar el archivo Excel
+ruta_archivo = 'C:\\Users\\USER\\Desktop\\archivo1.xlsx'
+
+# Abrir el archivo Excel con xlwings
+wb = xw.Book(ruta_archivo)
+
+# Seleccionar la hoja específica (por nombre)
+hoja = wb.sheets['Hoja2']
+
+# Escribir valores en las celdas B1 y B2
+hoja['B1'].value = 1
+hoja['B2'].value = 3
+
+# Excel recalculará automáticamente la fórmula en B3
+# Leer el valor calculado en B3 (suponiendo que ya tiene la fórmula B1 + B2)
+valor_b3 = hoja['B3'].value
+
+# Imprimir el valor calculado en B3
+print(f"La suma es: {valor_b3}")
+
+# Guardar y cerrar el archivo
+wb.save(ruta_archivo)
+wb.close()
